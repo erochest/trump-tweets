@@ -1,0 +1,12 @@
+funcsigs==1.0.2
+mock==2.0.0
+oauthlib==2.0.0
+pbr==1.10.0
+py==1.4.31
+pytest==3.0.3
+python-dateutil==2.5.3
+requests==2.11.1
+requests-oauthlib==0.7.0
+six==1.10.0
+twarc==0.8.0
+unicodecsv==0.14.1
