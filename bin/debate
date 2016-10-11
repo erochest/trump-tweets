@@ -6,4 +6,4 @@ if [ "$DATE" = "" ]; then
 	DATE=$(date "+%Y-%m-%d")
 fi
 
-python -m twarc --track "#crookedhillary,#fuckhillary,#deplorablesfortrump,#trump,#killary,#lockherup,#makeamericagreatagain,#imnotwithher" | xz > debate-${DATE}.json.xz
+python -m twarc --track "#crookedhillary,#fuckhillary,#deplorablesfortrump,#trump,#killary,#lockherup,#makeamericagreatagain,#imnotwithher" | xz > data/debate-${DATE}.json.xz
