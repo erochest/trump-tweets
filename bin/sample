@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DATE="$1"
+
+if [ "$DATE" = "" ]; then
+	DATE=$(date "+%Y-%m-%d")
+fi
+
+python -m twarc --sample | xz > sample-${DATE}.json.xz
+
