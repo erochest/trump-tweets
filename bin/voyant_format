@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+
+
+"""Read a JSON data file and output it as an Atom corpus."""
+
+
+import json
+import os
+import sys
+
+from feedgen.feed import FeedGenerator
+
+
+def read_json_corpus(filename):
+    """Taking each line of filename as its own document, read a corpus."""
+    with open(filename) as fin:
+        for line in fin:
+            if line.strip():
+                try:
+                    yield json.loads(line)
+                except:
+                    print('JSON ERROR ON %r' % (line,))
+                    raise
+
+
+def tweet_entry(tweet, entry):
+    """Populate a feed entry from a tweet."""
+    text = tweet['text']
+    entry.id('tweet:%s' % (tweet['id'],))
+    entry.author(
+        name=tweet['user']['name'],
+        email=tweet['user']['screen_name'],
+        )
+    entry.title(text[:50])
+    entry.link({
+        'href': 'https://twitter.com/%s/status/%s' % (
+            tweet['user']['screen_name'], tweet['id']),
+        'rel': 'self',
+        })
+    entry.content(text)
+
+
+def create_feed_generator(filename):
+    """Create a feed generator with metadata."""
+    fg = FeedGenerator()
+    fg.id(filename)
+    fg.title(filename)
+    fg.author(name='Eric Rochester', email='err8n@virginia.edu')
+    fg.link({'href': 'https://twitter.com/', 'rel': 'alternate'})
+    fg.language('en')
+    return fg
+
+
+def write_as(feedgen, filename, format_str):
+    output = os.path.splitext(filename)[0] + '.' + format_str
+    print('{} => {}'.format(filename, output))
+    writer = getattr(feedgen, format_str + '_file')
+    writer(output, pretty=True)
+
+
+def main(args=None):
+    """Connect command-line arguments with functionality."""
+    args = args if args is not None else sys.argv[1:]
+
+    if not args or '--help' in args or '-h' in args or 'help' in args:
+        print(__doc__)
+        sys.exit(0)
+
+    for filename in args:
+        fg = create_feed_generator(filename)
+        fg.id(filename)
+        for tweet in read_json_corpus(filename):
+            tweet_entry(tweet, fg.add_entry())
+
+        # write_as(fg, filename, 'rss')
+        write_as(fg, filename, 'atom')
+
+
+if __name__ == '__main__':
+    main()
