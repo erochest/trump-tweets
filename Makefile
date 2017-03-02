@@ -1,6 +1,6 @@
 
-DEBATE=debate-2016-10-09.json
-SAMPLE=sample-2016-10-09.json
+DEBATE=debate-2016-10-19.json
+SAMPLE=sample-2016-10-19.json
 
 
 %.csv : %.json

@@ -45,6 +45,7 @@ def create_feed_generator(filename):
     fg = FeedGenerator()
     fg.id(filename)
     fg.title(filename)
+    fg.description(filename)
     fg.author(name='Eric Rochester', email='err8n@virginia.edu')
     fg.link({'href': 'https://twitter.com/', 'rel': 'alternate'})
     fg.language('en')
@@ -72,8 +73,8 @@ def main(args=None):
         for tweet in read_json_corpus(filename):
             tweet_entry(tweet, fg.add_entry())
 
-        # write_as(fg, filename, 'rss')
-        write_as(fg, filename, 'atom')
+        write_as(fg, filename, 'rss')
+        # write_as(fg, filename, 'atom')
 
 
 if __name__ == '__main__':
